@@ -1,4 +1,4 @@
-# Social Part of Scholarship
+# Cultural Part of Scholarship
 Back-end для заполнения студентом форм о достижениях в культурно-творческой деятельности. Используется FastAPI.
 
 ## Разработка
