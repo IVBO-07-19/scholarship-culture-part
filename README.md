@@ -1,7 +1,7 @@
 # Cultural Part of Scholarship
 Back-end для заполнения студентом форм о достижениях в культурно-творческой деятельности. Используется Python, FastAPI, PostgreSQL, Heroku.
 
-[Ссылка на Heroku](https://culturalpart.herokuapp.com/api/cultural-part/example)
+[Ссылка на Heroku](https://culturalpart.herokuapp.com/items)
 
 ## How to launch
 ### Installing dependencies
