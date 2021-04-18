@@ -2,12 +2,15 @@ from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
-
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app import models, schemas
 from app.crud import crudPrizes, crudArtworks, crudActivity
 from app.database import SessionLocal, engine
+from auth import auth
+from datetime import timedelta
 
 models.Base.metadata.create_all(bind=engine)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI()
 
