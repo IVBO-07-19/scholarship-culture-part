@@ -37,3 +37,12 @@ class Activities(Base):
     responsiblePosition = Column("tx_responsible_position", Text)
     points = Column("f_points", Float)
     status = Column("b_status", Boolean)
+
+class Users(Base):
+    __tablename__ = "users"
+
+    access_token = Column("tx_token", Text, primary_key=True)
+    student_ticket = Column("tx_ticket", Text, primary_key=True)
+    password = Column("tx_pass", Text)
+    full_name = Column("tx_name", Text)
+    email = Column("tx_email", Text, primary_key=True)

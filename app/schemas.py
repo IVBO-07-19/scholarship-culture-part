@@ -58,3 +58,33 @@ class ActivitiesCreate(ActivitiesBase):
 class Activity(ActivitiesBase):
     class Config:
         orm_mode = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+
+
+class UserBase(BaseModel):
+    email: str = None
+    full_name: str = None
+    student_ticket: str = None
+    password: str = None
+    disabled: Optional[bool] = None
+
+
+class User(UserBase):
+    class Config:
+        orm_mode = True
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+class UserCreate(User):
+    pass
