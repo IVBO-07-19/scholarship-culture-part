@@ -26,6 +26,8 @@ app = FastAPI()
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+# https://github.com/dorinclisu/fastapi-auth0
+# kARpvBrai9zvGOqwJUp3ZNbNEK7dJPlB
 
 def get_db():
     db = SessionLocal()
