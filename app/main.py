@@ -39,7 +39,7 @@ def get_db():
 @app.post("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.create_item(db, item)
+    return crudPrizes.create_item(db, item, user.id)
 
 
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
@@ -64,14 +64,14 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.update_item(db, item)
+    return crudPrizes.update_item(db, item, user.id)
 
 
 # artworks
 @app.post("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudArtworks.create_item(db, item)
+    return crudArtworks.create_item(db, item, user.id)
 
 
 @app.get("/api/culture/artworks/", response_model=List[schemas.Artwork], dependencies=[Depends(auth1.implicit_scheme)])
@@ -97,14 +97,14 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 @app.put("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudArtworks.update_item(db, item)
+    return crudArtworks.update_item(db, item, user.id)
 
 
 # participation in university events or not
 @app.post("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudActivity.create_item(db, item)
+    return crudActivity.create_item(db, item, user.id)
 
 
 @app.get("/api/culture/activity/", response_model=List[schemas.Activity], dependencies=[Depends(auth1.implicit_scheme)])
@@ -130,4 +130,4 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 @app.put("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudActivity.update_item(db, item)
+    return crudActivity.update_item(db, item, user.id)

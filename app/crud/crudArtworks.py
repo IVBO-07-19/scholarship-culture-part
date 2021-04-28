@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from fastapi_auth0 import Auth0User
 from app import models, schemas
 
 
@@ -19,20 +19,20 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Artworks).order_by(models.Artworks.id).offset(skip).limit(limit).all()
 
 
-def create_item(db: Session, artwork: schemas.ArtworksCreate):
+def create_item(db: Session, artwork: schemas.ArtworksCreate, user_id: str):
     db_item = models.Artworks(title=artwork.title, location=artwork.location,
                               date=artwork.date, points=artwork.points,
-                              user_id=artwork.user_id, id_request=artwork.id_request)
+                              user_id=user_id, id_request=artwork.id_request)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
 
 
-def update_item(db: Session, artwork: schemas.ArtworksCreate):
+def update_item(db: Session, artwork: schemas.ArtworksCreate, user_id: str):
     db.query(models.Artworks).filter(models.Artworks.id == artwork.id) \
         .update({"title": artwork.title, "location": artwork.location,
-                 "date": artwork.date, "points": artwork.points, "user_id": artwork.user_id,
+                 "date": artwork.date, "points": artwork.points, "user_id": user_id,
                  "id_request": artwork.id_request})
     db.commit()
     return db.query(models.Artworks).filter(models.Artworks.id == artwork.id).first()

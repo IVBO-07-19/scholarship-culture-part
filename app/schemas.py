@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from datetime import date
 from pydantic import BaseModel
 
@@ -11,6 +11,8 @@ class PrizesBase(BaseModel):
     place: int
     date: date
     points: int
+    user_id: str
+    id_request: str
 
 
 class PrizeCreate(PrizesBase):
@@ -28,6 +30,8 @@ class ArtworksBase(BaseModel):
     location: str
     date: date
     points: int
+    user_id: str
+    id_request: str
 
 
 class ArtworksCreate(ArtworksBase):
@@ -49,6 +53,8 @@ class ActivitiesBase(BaseModel):
     responsiblePosition: str
     points: int
     status: bool
+    user_id: str
+    id_request: str
 
 
 class ActivitiesCreate(ActivitiesBase):
