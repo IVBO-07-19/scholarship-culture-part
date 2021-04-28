@@ -21,7 +21,8 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
 
 def create_item(db: Session, artwork: schemas.ArtworksCreate):
     db_item = models.Artworks(title=artwork.title, location=artwork.location,
-                              date=artwork.date, points=artwork.points)
+                              date=artwork.date, points=artwork.points,
+                              user_id=artwork.user_id, id_request=artwork.id_request)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
@@ -31,6 +32,7 @@ def create_item(db: Session, artwork: schemas.ArtworksCreate):
 def update_item(db: Session, artwork: schemas.ArtworksCreate):
     db.query(models.Artworks).filter(models.Artworks.id == artwork.id) \
         .update({"title": artwork.title, "location": artwork.location,
-                 "date": artwork.date, "points": artwork.points})
+                 "date": artwork.date, "points": artwork.points, "user_id": artwork.user_id,
+                 "id_request": artwork.id_request})
     db.commit()
     return db.query(models.Artworks).filter(models.Artworks.id == artwork.id).first()
