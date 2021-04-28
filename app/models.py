@@ -13,8 +13,8 @@ class Prizes(Base):
     place = Column("i_place", Integer)
     date = Column("d_date", Date)
     points = Column("f_points", Float)
-    user_id = Column("i_userId", Integer)
-    id_request = Column("i_report", Integer)
+    user_id = Column("tx_userId", Text)
+    id_request = Column("tx_report", Text)
 
 
 class Artworks(Base):
@@ -25,8 +25,8 @@ class Artworks(Base):
     location = Column("tx_location", Text)
     date = Column("d_date", Date)
     points = Column("f_points", Float)
-    user_id = Column("i_userId", Integer)
-    id_request = Column("i_report", Integer)
+    user_id = Column("tx_userId", Text)
+    id_request = Column("tx_report", Text)
 
 
 class Activities(Base):
@@ -41,14 +41,5 @@ class Activities(Base):
     responsiblePosition = Column("tx_responsible_position", Text)
     points = Column("f_points", Float)
     status = Column("b_status", Boolean)
-    user_id = Column("i_userId", Integer)
-    id_request = Column("i_report", Integer)
-
-# class Users(Base):
-#     __tablename__ = "users"
-#
-#     access_token = Column("tx_token", Text, primary_key=True)
-#     student_ticket = Column("tx_ticket", Text, primary_key=True)
-#     password = Column("tx_pass", Text)
-#     full_name = Column("tx_name", Text)
-#     email = Column("tx_email", Text, primary_key=True)
+    user_id = Column("tx_userId", Text)
+    id_request = Column("tx_report", Text)
