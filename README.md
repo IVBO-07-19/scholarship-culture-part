@@ -3,6 +3,7 @@ Back-end для заполнения студентом форм о достиж
 
 ## Heroku
 [Ссылка на главную страницу](https://culturalpart.herokuapp.com/docs)
+Для регистрации пользователя: LNqo3YIKYeXS8U60YXEDflLBGHaACeq0
 Login: ilya
 Password: secret
 ### Ссылки на определенные пункты из приложения №4 
