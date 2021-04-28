@@ -22,7 +22,8 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
 def create_item(db: Session, activity: schemas.ActivitiesCreate):
     db_item = models.Activities(title=activity.title, work=activity.work, level=activity.level, date=activity.date,
                                 responsible=activity.responsible, responsiblePosition=activity.responsiblePosition,
-                                points=activity.points, status=activity.status)
+                                points=activity.points, status=activity.status,
+                                user_id=activity.user_id, id_request=activity.id_request)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
@@ -33,6 +34,7 @@ def update_item(db: Session, activity: schemas.ActivitiesCreate):
     db.query(models.Activities).filter(models.Activities.id == activity.id) \
         .update({"title": activity.title, "work": activity.work, "level": activity.level, "date": activity.date,
                  "responsible": activity.responsible, "responsiblePosition": activity.responsiblePosition,
-                 "points": activity.points, "status": activity.status})
+                 "points": activity.points, "status": activity.status,
+                 "user_id": activity.user_id, "request_id": activity.id_request})
     db.commit()
     return db.query(models.Activities).filter(models.Activities.id == activity.id).first()
