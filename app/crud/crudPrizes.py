@@ -21,7 +21,7 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
 
 def create_item(db: Session, prize: schemas.PrizeCreate):
     db_item = models.Prizes(title=prize.title, level=prize.level, degree=prize.degree, place=prize.place,
-                            date=prize.date, points=prize.points)
+                            date=prize.date, points=prize.points, user_id=prize.user_id, id_request=prize.id_request)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
@@ -31,6 +31,6 @@ def create_item(db: Session, prize: schemas.PrizeCreate):
 def update_item(db: Session, prize: schemas.PrizeCreate):
     db.query(models.Prizes).filter(models.Prizes.id == prize.id) \
         .update({"title": prize.title, "level": prize.level, "degree": prize.degree, "place": prize.place,
-                 "date": prize.date, "points": prize.points})
+                 "date": prize.date, "points": prize.points, "user_id": prize.user_id, "request": prize.id_request})
     db.commit()
     return db.query(models.Prizes).filter(models.Prizes.id == prize.id).first()
