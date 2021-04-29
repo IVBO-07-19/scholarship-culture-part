@@ -41,6 +41,8 @@ class ArtworksCreate(ArtworksBase):
 
 
 class Artwork(ArtworksBase):
+    user_id: str
+
     class Config:
         orm_mode = True
 
