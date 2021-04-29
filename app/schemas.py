@@ -11,7 +11,7 @@ class PrizesBase(BaseModel):
     place: int
     date: date
     points: int
-    user_id: str
+    # user_id: str
     id_request: str
 
 
@@ -20,6 +20,8 @@ class PrizeCreate(PrizesBase):
 
 
 class Prize(PrizesBase):
+    user_id: str
+
     class Config:
         orm_mode = True
 
@@ -30,7 +32,7 @@ class ArtworksBase(BaseModel):
     location: str
     date: date
     points: int
-    user_id: str
+    # user_id: str
     id_request: str
 
 
@@ -53,7 +55,7 @@ class ActivitiesBase(BaseModel):
     responsiblePosition: str
     points: int
     status: bool
-    user_id: str
+    # user_id: str
     id_request: str
 
 
@@ -62,6 +64,8 @@ class ActivitiesCreate(ActivitiesBase):
 
 
 class Activity(ActivitiesBase):
+    user_id: str
+
     class Config:
         orm_mode = True
 
