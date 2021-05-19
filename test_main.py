@@ -8,14 +8,14 @@ client = TestClient(app)
 
 # url = "/api/culture/prizes/"
 # to database.py: config = configparser.ConfigParser()
-# config.read("config.test.ini"), SQLALCHEMY_DATABASE_URL = config["test"]["url"]
+# config.read("config.ini"), SQLALCHEMY_DATABASE_URL = config["test"]["url"]
 
 
 def get_access_token():
     r = requests.post('https://suroegin503.eu.auth0.com/oauth/token', data={
         'grant_type': 'password',
-        'username': 'testingemail@gmail.com',
-        'password': 'TestPassword1_',
+        'username': 'test1@mail.ru',
+        'password': '123321',
         'scope': 'openid profile email',
         'audience': 'https://welcome/',
         'client_id': 'PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI'})
@@ -61,7 +61,7 @@ def test_create_article_writer_check_user_id():
     assert response.status_code == 200
     body = response.json()
     assert type(body) is dict
-    assert body['id_person'] == userId
+    assert body['user_id'] == userId
 
 
 def test_create_article_writer_with_incorrect_argument_returns_400():
