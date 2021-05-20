@@ -67,7 +67,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.update_item(db, item, user.id)
+    if item.place > 0:
+        return crudPrizes.update_item(db, item, user.id)
+    else:
+        raise HTTPException(status_code=406)
 
 
 # artworks

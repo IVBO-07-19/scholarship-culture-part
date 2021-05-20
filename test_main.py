@@ -40,13 +40,13 @@ def test_not_authorized():
     assert response.status_code == 401 or response.status_code == 403
 
 
-def test_get_article_writers():
+def test_get_prize():
     response = client.get("/api/culture/prizes/", headers=auth_headers)
     assert response.status_code == 200
     assert type(response.json()) is list
 
 
-def test_create_article_writer_check_user_id():
+def test_create_prize_check_user_id():
     response = client.post("/api/culture/prizes/", headers=auth_headers, data=json.dumps({
         "id": 0,
         "title": "string",
@@ -64,7 +64,7 @@ def test_create_article_writer_check_user_id():
     assert body['user_id'] == userId
 
 
-def test_create_article_writer_with_incorrect_argument_returns_400():
+def test_create_prize_with_incorrect_argument_returns_400():
     response = client.post("/api/culture/prizes/", headers=auth_headers, data=json.dumps({
         "id": 0,
         "title": "string",
@@ -77,3 +77,51 @@ def test_create_article_writer_with_incorrect_argument_returns_400():
     }))
 
     assert response.status_code // 100 == 4
+
+
+def test_get_artwork():
+    response = client.get("/api/culture/artworks/", headers=auth_headers)
+    assert response.status_code == 200
+    assert type(response.json()) is list
+
+
+def test_create_artwork_check_user_id():
+    response = client.post("/api/culture/artworks/", headers=auth_headers, data=json.dumps({
+        "id": 0,
+        "title": "string",
+        "location": "string",
+        "date": "2021-05-13",
+        "points": 1.0,
+        "id_request": "string"
+    }))
+
+    assert response.status_code == 200
+    body = response.json()
+    assert type(body) is dict
+    assert body['user_id'] == userId
+
+
+def test_get_activity():
+    response = client.get("/api/culture/activity/", headers=auth_headers)
+    assert response.status_code == 200
+    assert type(response.json()) is list
+
+
+def test_create_activity_check_user_id():
+    response = client.post("/api/culture/activity/", headers=auth_headers, data=json.dumps({
+        "id": 0,
+        "title": "string",
+        "work": "string",
+        "level": "string",
+        "date": "2021-05-13",
+        "responsible": "string",
+        "responsiblePosition": "string",
+        "points": 1.0,
+        "status": False,
+        "id_request": "string"
+    }))
+
+    assert response.status_code == 200
+    body = response.json()
+    assert type(body) is dict
+    assert body['user_id'] == userId
