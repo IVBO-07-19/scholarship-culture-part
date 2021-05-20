@@ -76,4 +76,4 @@ def test_create_article_writer_with_incorrect_argument_returns_400():
         "id_request": "string"
     }))
 
-    assert response.status_code % 100 == 4
+    assert response.status_code // 100 == 4
