@@ -72,7 +72,7 @@ def test_create_article_writer_with_incorrect_argument_returns_400():
         "degree": "string",
         "place": -1,
         "date": "2021-05-13",
-        "points": 0,
+        "points": 1.0,
         "id_request": "string"
     }))
 
