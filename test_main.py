@@ -50,8 +50,8 @@ def test_create_article_writer_check_user_id():
     response = client.post("/api/culture/prizes/", headers=auth_headers, data=json.dumps({
         "id": 0,
         "title": "string",
-        "level": 0,
-        "degree": 0,
+        "level": "string",
+        "degree": "string",
         "place": 0,
         "date": "2021-05-13",
         "points": 0,
@@ -68,8 +68,8 @@ def test_create_article_writer_with_incorrect_argument_returns_400():
     response = client.post("/api/culture/prizes/", headers=auth_headers, data=json.dumps({
         "id": 0,
         "title": "string",
-        "level": 0,
-        "degree": 0,
+        "level": "string",
+        "degree": "string",
         "place": -1,
         "date": "2021-05-13",
         "points": 0,

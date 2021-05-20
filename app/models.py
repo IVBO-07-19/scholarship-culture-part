@@ -8,11 +8,11 @@ class Prizes(Base):
 
     id = Column("i_id", Integer, primary_key=True)
     title = Column("tx_title", Text)
-    level = Column("i_level", Integer)
-    degree = Column("i_degree", Integer)
-    place = Column("i_place", Integer)
-    date = Column("d_date", Date)
-    points = Column("f_points", Float)
+    level = Column("t_level", Text)          # уровень мероприятия (региональное, международное, всероссийское, ведомственное)
+    degree = Column("t_degree", Text)        # степень участия (индивидуальное, командное)
+    place = Column("i_place", Integer)       # занятое место
+    date = Column("d_date", Date)            # даты мероприятий
+    points = Column("f_points", Float)       # баллы
     user_id = Column("tx_userId", Text)
     id_request = Column("tx_report", Text)
 
@@ -35,7 +35,7 @@ class Activities(Base):
     id = Column("i_id", Integer, primary_key=True)
     title = Column("tx_title", Text)
     work = Column("tx_work", Text)
-    level = Column("i_level", Integer)
+    level = Column("t_level", Text)               # уровень мероприятия (региональное, международное, всероссийское, ВУЗовское)
     date = Column("d_date", Date)
     responsible = Column("tx_responsible", Text)
     responsiblePosition = Column("tx_responsible_position", Text)
