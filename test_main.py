@@ -54,7 +54,7 @@ def test_create_article_writer_check_user_id():
         "degree": "string",
         "place": 0,
         "date": "2021-05-13",
-        "points": 0,
+        "points": 1.0,
         "id_request": "string"
     }))
 
