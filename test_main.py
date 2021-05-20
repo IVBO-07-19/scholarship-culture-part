@@ -14,8 +14,8 @@ client = TestClient(app)
 def get_access_token():
     r = requests.post('https://suroegin503.eu.auth0.com/oauth/token', data={
         'grant_type': 'password',
-        'username': 'test1@mail.ru',
-        'password': '123321',
+        'username': 'testingemail@gmail.com',
+        'password': 'TestPassword1_',
         'scope': 'openid profile email',
         'audience': 'https://welcome/',
         'client_id': 'PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI'})
