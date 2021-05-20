@@ -12,12 +12,15 @@ from fastapi import FastAPI, Depends, Security
 from fastapi_auth0 import Auth0, Auth0User
 import os
 
-auth0_domain = os.getenv('AUTH0_DOMAIN', 'dev-sbwx3v7l.eu.auth0.com')
-auth0_api_audience = os.getenv('AUTH0_API_AUDIENCE', 'culture')
+auth0_domain = os.getenv('AUTH0_DOMAIN', 'suroegin503.eu.auth0.com')
+auth0_api_audience = os.getenv('AUTH0_API_AUDIENCE', 'https://welcome/')
 
 auth1 = Auth0(domain=auth0_domain, api_audience=auth0_api_audience, scopes={
-    'read:blabla': 'Read BlaBla resource'
+    'Cultural': 'Part'
 })
+
+# client_id = zAmZ0t6DZtNFyTHM66UHptAjCzaV5p9Q, PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI
+
 
 models.Base.metadata.create_all(bind=engine)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
