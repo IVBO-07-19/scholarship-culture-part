@@ -14,7 +14,7 @@ class Prizes(Base):
     date = Column("d_date", Date)            # даты мероприятий
     points = Column("f_points", Float)       # баллы
     user_id = Column("tx_userId", Text)
-    id_request = Column("tx_report", Text)
+    id_request = Column("i_request", Integer)
 
 
 class Artworks(Base):
@@ -26,7 +26,7 @@ class Artworks(Base):
     date = Column("d_date", Date)
     points = Column("f_points", Float)
     user_id = Column("tx_userId", Text)
-    id_request = Column("tx_report", Text)
+    id_request = Column("i_request", Integer)
 
 
 class Activities(Base):
@@ -42,4 +42,4 @@ class Activities(Base):
     points = Column("f_points", Float)
     status = Column("b_status", Boolean)     # в составе/не в составе творческого коллектива
     user_id = Column("tx_userId", Text)
-    id_request = Column("tx_report", Text)
+    id_request = Column("i_request", Integer)

@@ -30,11 +30,11 @@ def create_item(db: Session, activity: schemas.ActivitiesCreate, user_id: str):
     return db_item
 
 
-def update_item(db: Session, activity: schemas.ActivitiesCreate, user_id: str):
+def update_item(db: Session, activity: schemas.ActivitiesCreate, user_id: str, id_request: int):
     db.query(models.Activities).filter(models.Activities.id == activity.id) \
         .update({"title": activity.title, "work": activity.work, "level": activity.level, "date": activity.date,
                  "responsible": activity.responsible, "responsiblePosition": activity.responsiblePosition,
                  "points": activity.points, "status": activity.status,
-                 "user_id": user_id, "request_id": activity.id_request})
+                 "user_id": user_id, "request_id": id_request})
     db.commit()
     return db.query(models.Activities).filter(models.Activities.id == activity.id).first()

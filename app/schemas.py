@@ -12,7 +12,7 @@ class PrizesBase(BaseModel):
     date: date
     points: float
     # user_id: str
-    id_request: str
+    id_request: int
 
 
 class PrizeCreate(PrizesBase):
@@ -33,7 +33,7 @@ class ArtworksBase(BaseModel):
     date: date
     points: float
     # user_id: str
-    id_request: str
+    id_request: int
 
 
 class ArtworksCreate(ArtworksBase):
