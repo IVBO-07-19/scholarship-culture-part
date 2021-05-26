@@ -55,7 +55,6 @@ def test_create_prize_check_user_id():
         "place": 1,
         "date": "2021-05-13",
         "points": 1.0,
-        "id_request": "string"
     }))
 
     assert response.status_code == 200
