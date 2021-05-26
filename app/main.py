@@ -1,14 +1,11 @@
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from app import models, schemas
 from app.crud import crudPrizes, crudArtworks, crudActivity
 from app.database import SessionLocal, engine
-from auth import auth
-from datetime import timedelta
-from fastapi import FastAPI, Depends, Security
+from fastapi import FastAPI, Depends, Security, HTTPException
 from fastapi_auth0 import Auth0, Auth0User
 import os
 
@@ -42,7 +39,10 @@ def get_db():
 @app.post("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.create_item(db, item, user.id)
+    if item.place > 0:
+        return crudPrizes.create_item(db, item, user.id)
+    else:
+        raise HTTPException(status_code=406)
 
 
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
@@ -67,7 +67,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.update_item(db, item, user.id)
+    if item.place > 0:
+        return crudPrizes.update_item(db, item, user.id)
+    else:
+        raise HTTPException(status_code=406)
 
 
 # artworks

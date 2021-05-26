@@ -1,8 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import configparser
 
-SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost:5432/db"
+config = configparser.ConfigParser()
+config.read("config.ini", encoding='utf-8-sig')
+SQLALCHEMY_DATABASE_URL = config["postgres"]["url"]
+
+# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost:5432/db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
