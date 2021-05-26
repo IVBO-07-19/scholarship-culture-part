@@ -1,10 +1,12 @@
 # Cultural Part of Scholarship Application
 Back-end для заполнения студентом форм о достижениях в культурно-творческой деятельности. Используется Python, FastAPI, PostgreSQL, Heroku.
 
+[![Python application](https://github.com/IVBO-07-19/scholarship-culture-part/actions/workflows/tests.yml/badge.svg)](https://github.com/IVBO-07-19/scholarship-culture-part/actions/workflows/tests.yml)
+
 ## Heroku
  ***[Ссылка на главную страницу](https://culturalpart.herokuapp.com/docs)***
  
-**Для регистрации пользователя: PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI**
+**Для регистрации пользователя: LNqo3YIKYeXS8U60YXEDflLBGHaACeq0**
 
 ### Ссылки на определенные пункты из приложения №4 
 #### (Достижения студента в культурно-творческой деятельности)
