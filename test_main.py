@@ -72,7 +72,6 @@ def test_create_prize_with_incorrect_argument_returns_400():
         "place": -1,
         "date": "2021-05-13",
         "points": 1.0,
-        "id_request": "string"
     }))
 
     assert response.status_code // 100 == 4
@@ -91,7 +90,6 @@ def test_create_artwork_check_user_id():
         "location": "string",
         "date": "2021-05-13",
         "points": 1.0,
-        "id_request": "string"
     }))
 
     assert response.status_code == 200
@@ -117,7 +115,6 @@ def test_create_activity_check_user_id():
         "responsiblePosition": "string",
         "points": 1.0,
         "status": False,
-        "id_request": "string"
     }))
 
     assert response.status_code == 200
