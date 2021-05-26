@@ -59,6 +59,24 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=406)
 
 
+'''
+Но дружбы нет и той меж нами.
+Все предрассудки истребя,
+Мы почитаем всех нулями,
+А единицами — себя.
+Мы все глядим в Наполеоны;
+Двуногих тварей миллионы
+Для нас орудие одно;
+Нам чувство дико и смешно.
+Сноснее многих был Евгений;
+Хоть он людей, конечно, знал
+И вообще их презирал, —
+Но (правил нет без исключений)
+Иных он очень отличал
+И вчуже чувство уважал.
+'''
+
+
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
 def read_items(db: Session = Depends(get_db),
                user: Auth0User = Security(auth1.get_user)):
