@@ -27,6 +27,9 @@ Back-end для заполнения студентом форм о достиж
    Участие в составе творческого коллектива Университета или отдельно будет осуществляться в одной таблице (булевое значение: 0 - не в составе, 1 - в составе)
 
 ## How to launch
+### Creating virtual environment
+    python3 -m venv venv
+ Activate a script in the virtual environment which named Activate.ps1 or Activate.bat
 ### Installing dependencies
     pip install -r requirements.txt
 ### Running application (local server)
