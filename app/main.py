@@ -50,7 +50,7 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     if item.place > 0:
@@ -89,7 +89,7 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     if item.place > 0:
@@ -104,7 +104,7 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     return crudArtworks.create_item(db, item, user.id, id_request)
@@ -141,7 +141,7 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     return crudArtworks.update_item(db, item, user.id, id_request)
@@ -153,7 +153,7 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     return crudActivity.create_item(db, item, user.id, id_request)
@@ -190,7 +190,7 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
                 user: Auth0User = Security(auth1.get_user)):
     response = get_id_and_status(client_id)
     data = json.loads(response.text)
-    id_request = data["id"]
+    id_request = data[0]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     return crudActivity.update_item(db, item, user.id, id_request)
