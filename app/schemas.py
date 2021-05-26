@@ -58,7 +58,7 @@ class ActivitiesBase(BaseModel):
     points: float
     status: bool
     # user_id: str
-    id_request: str
+    id_request: int
 
 
 class ActivitiesCreate(ActivitiesBase):
