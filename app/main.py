@@ -112,8 +112,8 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.place > 0:
-            return crudPrizes.create_item(db, item, user.id, id_request)
+        if item.place > 0 and item.points > 0:
+            return crudPrizes.update_item(db, item, user.id, id_request)
         else:
             raise HTTPException(status_code=406)
 
@@ -127,7 +127,11 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    return crudArtworks.create_item(db, item, user.id, id_request)
+    else:
+        if item.points > 0:
+            return crudArtworks.create_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
 
 
 @app.get("/api/culture/artworks/", response_model=List[schemas.Artwork], dependencies=[Depends(auth1.implicit_scheme)])
@@ -165,7 +169,11 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    return crudArtworks.update_item(db, item, user.id, id_request)
+    else:
+        if item.points > 0:
+            return crudArtworks.update_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
 
 
 # participation in university events or not
@@ -177,7 +185,11 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    return crudActivity.create_item(db, item, user.id, id_request)
+    else:
+        if item.points > 0:
+            return crudActivity.create_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
 
 
 @app.get("/api/culture/activity/", response_model=List[schemas.Activity], dependencies=[Depends(auth1.implicit_scheme)])
@@ -215,4 +227,9 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    return crudActivity.update_item(db, item, user.id, id_request)
+    else:
+        if item.points > 0:
+            return crudActivity.update_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
+
