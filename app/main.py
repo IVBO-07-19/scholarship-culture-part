@@ -10,6 +10,7 @@ from fastapi import FastAPI, Depends, Security, HTTPException
 from fastapi_auth0 import Auth0, Auth0User
 import os
 import requests
+from starlette.requests import Request
 
 auth0_domain = os.getenv('AUTH0_DOMAIN', 'suroegin503.eu.auth0.com')
 auth0_api_audience = os.getenv('AUTH0_API_AUDIENCE', 'https://welcome/')
@@ -21,9 +22,8 @@ auth1 = Auth0(domain=auth0_domain, api_audience=auth0_api_audience, scopes={
 # client_id = zAmZ0t6DZtNFyTHM66UHptAjCzaV5p9Q, PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI
 client_id = "PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI"
 
-
 models.Base.metadata.create_all(bind=engine)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="https://suroegin503.eu.auth0.com/oauth/token")
 
 app = FastAPI()
 
@@ -38,6 +38,11 @@ def get_db():
         db.close()
 
 
+# def get_token():
+#     request = requests.post("https://suroegin503.eu.auth0.com/oauth/token")
+#     return request
+
+
 def get_id_and_status(token):
     data = {"Authorization": token}
     response = requests.get("https://secure-gorge-99048.herokuapp.com/api/application/last/", headers=data)
@@ -47,8 +52,11 @@ def get_id_and_status(token):
 # prizes for participation
 @app.post("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    # request = requests.get("https://suroegin503.eu.auth0.com/oauth/token")
+    # response = get_id_and_status(request.headers["Authorization"])
+    response = get_id_and_status(token)
+    print(response)
     data = json.loads(response.text)
     print(data)
     id_request = data["id"]
@@ -90,9 +98,10 @@ def read_item(item_id: int, db: Session = Depends(get_db),
     return crudPrizes.get_item_by_id(db, item_id=item_id)
 
 
-@app.get("/api/culture/prizes/{id_request}", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
+@app.get("/api/culture/prizes/{id_request}", response_model=schemas.Prize,
+         dependencies=[Depends(auth1.implicit_scheme)])
 def read_item_by_id_request(id_request: int, db: Session = Depends(get_db),
-              user: Auth0User = Security(auth1.get_user)):
+                            user: Auth0User = Security(auth1.get_user)):
     return crudPrizes.get_item_by_id(db, id_request)
 
 
@@ -105,8 +114,8 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    response = get_id_and_status(token)
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -120,8 +129,8 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
 # artworks
 @app.post("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    response = get_id_and_status(token)
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -142,9 +151,10 @@ def read_item(item_id: int, db: Session = Depends(get_db),
     return crudArtworks.get_item_by_id(db, item_id=item_id)
 
 
-@app.get("/api/culture/artworks/{id_request}", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
+@app.get("/api/culture/artworks/{id_request}", response_model=schemas.Artwork,
+         dependencies=[Depends(auth1.implicit_scheme)])
 def read_item_by_id_request(id_request: int, db: Session = Depends(get_db),
-              user: Auth0User = Security(auth1.get_user)):
+                            user: Auth0User = Security(auth1.get_user)):
     return crudPrizes.get_item_by_id(db, id_request)
 
 
@@ -157,8 +167,8 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    response = get_id_and_status(token)
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -169,8 +179,8 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
 # participation in university events or not
 @app.post("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    response = get_id_and_status(token)
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -191,9 +201,10 @@ def read_item(item_id: int, db: Session = Depends(get_db),
     return crudActivity.get_item_by_id(db, item_id=item_id)
 
 
-@app.get("/api/culture/activity/{id_request}", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
+@app.get("/api/culture/activity/{id_request}", response_model=schemas.Activity,
+         dependencies=[Depends(auth1.implicit_scheme)])
 def read_item_by_id_request(id_request: int, db: Session = Depends(get_db),
-              user: Auth0User = Security(auth1.get_user)):
+                            user: Auth0User = Security(auth1.get_user)):
     return crudPrizes.get_item_by_id(db, id_request)
 
 
@@ -206,8 +217,8 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(client_id)
+                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+    response = get_id_and_status(token)
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
