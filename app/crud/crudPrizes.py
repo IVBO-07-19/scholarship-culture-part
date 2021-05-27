@@ -36,6 +36,6 @@ def create_item(db: Session, prize: schemas.PrizeCreate, user_id: str, id_reques
 def update_item(db: Session, prize: schemas.PrizeCreate, user_id: str, id_request: int):
     db.query(models.Prizes).filter(models.Prizes.id == prize.id) \
         .update({"title": prize.title, "level": prize.level, "degree": prize.degree, "place": prize.place,
-                 "date": prize.date, "points": prize.points, "user_id": user_id, "request": id_request})
+                 "date": prize.date, "points": prize.points, "user_id": user_id, "id_request": id_request})
     db.commit()
     return db.query(models.Prizes).filter(models.Prizes.id == prize.id).first()

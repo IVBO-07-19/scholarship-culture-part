@@ -71,7 +71,7 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.place > 0:
+        if item.place > 0 and item.points > 0:
             return crudPrizes.create_item(db, item, user.id, id_request)
         else:
             raise HTTPException(status_code=406)
