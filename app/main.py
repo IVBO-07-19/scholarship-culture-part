@@ -7,7 +7,9 @@ from app import models, schemas
 from app.crud import crudPrizes, crudArtworks, crudActivity
 from app.database import SessionLocal, engine
 from fastapi import FastAPI, Depends, Security, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials
 from fastapi_auth0 import Auth0, Auth0User
+from fastapi_auth0.auth import Auth0HTTPBearer
 import os
 import requests
 from starlette.requests import Request
@@ -39,7 +41,7 @@ def get_db():
 
 
 # def get_token():
-#     request = requests.post("https://suroegin503.eu.auth0.com/oauth/token")
+#     request = requests.post("https://suroegin503.eu.auth0.com/oauth/token", data=)
 #     return request
 
 
@@ -50,12 +52,15 @@ def get_id_and_status(token):
 
 
 # prizes for participation
-@app.post("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
+@app.post("/api/culture/prizes/", response_model=schemas.Prize,
+          dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
     # request = requests.get("https://suroegin503.eu.auth0.com/oauth/token")
     # response = get_id_and_status(request.headers["Authorization"])
-    response = get_id_and_status(token)
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     print(response)
     data = json.loads(response.text)
     print(data)
@@ -114,8 +119,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
-    response = get_id_and_status(token)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -129,8 +136,10 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
 # artworks
 @app.post("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
-    response = get_id_and_status(token)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -167,8 +176,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
-    response = get_id_and_status(token)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -179,8 +190,10 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
 # participation in university events or not
 @app.post("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
-    response = get_id_and_status(token)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
@@ -217,8 +230,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user), token: str = Depends(oauth2_scheme)):
-    response = get_id_and_status(token)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
+    response = get_id_and_status(f"Bearer {token}")
     data = json.loads(response.text)
     id_request = data["id"]
     if not data["status"]:
