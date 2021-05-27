@@ -25,6 +25,9 @@ def get_access_token():
 token = get_access_token()
 
 auth_headers = {'Authorization': f'Bearer {token}'}
+response = requests.get("https://secure-gorge-99048.herokuapp.com/api/application/last/", headers=auth_headers)
+data = json.loads(response.text)
+print(data)
 
 
 def get_user_id():

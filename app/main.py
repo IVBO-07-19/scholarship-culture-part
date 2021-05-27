@@ -19,7 +19,6 @@ auth1 = Auth0(domain=auth0_domain, api_audience=auth0_api_audience, scopes={
 })
 
 # client_id = zAmZ0t6DZtNFyTHM66UHptAjCzaV5p9Q, PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI
-client_id = "PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI"
 
 models.Base.metadata.create_all(bind=engine)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="https://suroegin503.eu.auth0.com/oauth/token")
@@ -29,17 +28,30 @@ app = FastAPI()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
+def get_access_token():
+    r = requests.post('https://suroegin503.eu.auth0.com/oauth/token', data={
+        'grant_type': 'password',
+        'username': 'student@mirea.ru',
+        'password': '123',
+        'scope': 'openid profile email',
+        'audience': 'https://welcome/',
+        'client_id': 'PdkS09Ig0EYVGK9KPYwncjKMGzXnAasI',
+        'client_secret': '--OuOrb1541ddztN17yBA_yMuy_Ekrc-NikGijgqgtMd9kRvAI6dmMkpvqXOGuSX'})
+
+    return r.json()['access_token']
+
+
+token = get_access_token()
+
+token_final = f"Bearer {token}"
+
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
-
-# def get_token():
-#     request = requests.post("https://suroegin503.eu.auth0.com/oauth/token", data=)
-#     return request
 
 
 def get_id_and_status(token):
@@ -52,23 +64,17 @@ def get_id_and_status(token):
 @app.post("/api/culture/prizes/", response_model=schemas.Prize,
           dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    # request = requests.get("https://suroegin503.eu.auth0.com/oauth/token")
-    # response = get_id_and_status(request.headers["Authorization"])
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    print(response)
-    data = json.loads(response.text)
-    print(data)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    if item.place > 0:
-        return crudPrizes.create_item(db, item, user.id, id_request)
     else:
-        raise HTTPException(status_code=406)
-
+        if item.place > 0:
+            return crudPrizes.create_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
 
 
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
@@ -99,28 +105,25 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    data = json.loads(response.text)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
-    if item.place > 0:
-        return crudPrizes.update_item(db, item, user.id, id_request)
     else:
-        raise HTTPException(status_code=406)
+        if item.place > 0:
+            return crudPrizes.create_item(db, item, user.id, id_request)
+        else:
+            raise HTTPException(status_code=406)
 
 
 # artworks
 @app.post("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    data = json.loads(response.text)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -156,11 +159,9 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    data = json.loads(response.text)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -170,11 +171,9 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
 # participation in university events or not
 @app.post("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    data = json.loads(response.text)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -210,11 +209,9 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 @app.put("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
 def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user),
-                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
-    token = creds.credentials
-    response = get_id_and_status(f"Bearer {token}")
-    data = json.loads(response.text)
+                user: Auth0User = Security(auth1.get_user)):
+    response = get_id_and_status(token_final)
+    data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
