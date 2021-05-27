@@ -1,18 +1,15 @@
-import json
+import os
 from typing import List
 
-from sqlalchemy.orm import Session
+import requests
+from fastapi import FastAPI, Depends, Security, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from fastapi_auth0 import Auth0, Auth0User
+from sqlalchemy.orm import Session
+
 from app import models, schemas
 from app.crud import crudPrizes, crudArtworks, crudActivity
 from app.database import SessionLocal, engine
-from fastapi import FastAPI, Depends, Security, HTTPException
-from fastapi.security import HTTPAuthorizationCredentials
-from fastapi_auth0 import Auth0, Auth0User
-from fastapi_auth0.auth import Auth0HTTPBearer
-import os
-import requests
-from starlette.requests import Request
 
 auth0_domain = os.getenv('AUTH0_DOMAIN', 'suroegin503.eu.auth0.com')
 auth0_api_audience = os.getenv('AUTH0_API_AUDIENCE', 'https://welcome/')
@@ -72,23 +69,6 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     else:
         raise HTTPException(status_code=406)
 
-
-'''
-Но дружбы нет и той меж нами.
-Все предрассудки истребя,
-Мы почитаем всех нулями,
-А единицами — себя.
-Мы все глядим в Наполеоны;
-Двуногих тварей миллионы
-Для нас орудие одно;
-Нам чувство дико и смешно.
-Сноснее многих был Евгений;
-Хоть он людей, конечно, знал
-И вообще их презирал, —
-Но (правил нет без исключений)
-Иных он очень отличал
-И вчуже чувство уважал.
-'''
 
 
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
