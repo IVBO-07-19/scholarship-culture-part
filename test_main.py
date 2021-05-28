@@ -293,3 +293,7 @@ def test_update_activity_with_incorrect_points():
     }))
     assert response.status_code // 100 == 4
 
+
+def test_delete_activity_with_id_200():
+    response = client.delete("/api/culture/activity/1", headers=auth_headers)
+    assert response.status_code == 200
