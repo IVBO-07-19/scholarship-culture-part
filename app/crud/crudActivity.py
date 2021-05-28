@@ -7,6 +7,10 @@ def get_item_by_id(db: Session, item_id: int):
     return db.query(models.Activities).filter(models.Activities.id == item_id).first()
 
 
+def get_item_by_id_request(db: Session, id_request: int):
+    return db.query(models.Activities).filter(models.Activities.id_request == id_request).first()
+
+
 def delete_item_by_id(db: Session, item_id: int):
     db_items = db.query(models.Activities).filter(models.Activities.id == item_id)
     db_item = db_items.first()
@@ -35,6 +39,6 @@ def update_item(db: Session, activity: schemas.ActivitiesCreate, user_id: str):
         .update({"title": activity.title, "work": activity.work, "level": activity.level, "date": activity.date,
                  "responsible": activity.responsible, "responsiblePosition": activity.responsiblePosition,
                  "points": activity.points, "status": activity.status,
-                 "user_id": user_id, "request_id": activity.id_request})
+                 "user_id": user_id, "id_request": activity.id_request})
     db.commit()
     return db.query(models.Activities).filter(models.Activities.id == activity.id).first()

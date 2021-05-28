@@ -7,6 +7,10 @@ def get_item_by_id(db: Session, item_id: int):
     return db.query(models.Artworks).filter(models.Artworks.id == item_id).first()
 
 
+def get_item_by_id_request(db: Session, id_request: int):
+    return db.query(models.Artworks).filter(models.Artworks.id_request == id_request).first()
+
+
 def delete_item_by_id(db: Session, item_id: int):
     db_items = db.query(models.Artworks).filter(models.Artworks.id == item_id)
     db_item = db_items.first()

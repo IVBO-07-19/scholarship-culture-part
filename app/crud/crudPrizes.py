@@ -1,10 +1,15 @@
 from sqlalchemy.orm import Session
 from fastapi_auth0 import Auth0User
 from app import models, schemas
+import requests
 
 
 def get_item_by_id(db: Session, item_id: int):
     return db.query(models.Prizes).filter(models.Prizes.id == item_id).first()
+
+
+def get_item_by_id_request(db: Session, id_request: int):
+    return db.query(models.Prizes).filter(models.Prizes.id_request == id_request).first()
 
 
 def delete_item_by_id(db: Session, item_id: int):
@@ -31,6 +36,6 @@ def create_item(db: Session, prize: schemas.PrizeCreate, user_id: str):
 def update_item(db: Session, prize: schemas.PrizeCreate, user_id: str):
     db.query(models.Prizes).filter(models.Prizes.id == prize.id) \
         .update({"title": prize.title, "level": prize.level, "degree": prize.degree, "place": prize.place,
-                 "date": prize.date, "points": prize.points, "user_id": user_id, "request": prize.id_request})
+                 "date": prize.date, "points": prize.points, "user_id": user_id, "id_request": prize.id_request})
     db.commit()
     return db.query(models.Prizes).filter(models.Prizes.id == prize.id).first()
