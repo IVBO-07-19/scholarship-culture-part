@@ -92,6 +92,11 @@ def test_update_prize_200():
     assert response.status_code == 200
 
 
+def test_delete_prize_with_id_200():
+    response = client.delete("/api/culture/prizes/1", headers=auth_headers)
+    assert response.status_code == 200
+
+
 def test_update_prize_with_incorrect_place_406():
     response = client.put("/api/culture/prizes/", headers=auth_headers, data=json.dumps({
         "id": 1,
@@ -181,6 +186,11 @@ def test_update_artwork_200():
         "points": 1.0,
         "id_request": 1106
     }))
+    assert response.status_code == 200
+
+
+def test_delete_artwork_with_id_200():
+    response = client.delete("/api/culture/artworks/1", headers=auth_headers)
     assert response.status_code == 200
 
 
@@ -282,3 +292,4 @@ def test_update_activity_with_incorrect_points():
         "id_request": 1106
     }))
     assert response.status_code // 100 == 4
+
