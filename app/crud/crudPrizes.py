@@ -24,18 +24,18 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Prizes).order_by(models.Prizes.id).offset(skip).limit(limit).all()
 
 
-def create_item(db: Session, prize: schemas.PrizeCreate, user_id: str, id_request: int):
+def create_item(db: Session, prize: schemas.PrizeCreate, user_id: str):
     db_item = models.Prizes(title=prize.title, level=prize.level, degree=prize.degree, place=prize.place,
-                            date=prize.date, points=prize.points, user_id=user_id, id_request=id_request)
+                            date=prize.date, points=prize.points, user_id=user_id, id_request=prize.id_request)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
 
 
-def update_item(db: Session, prize: schemas.PrizeCreate, user_id: str, id_request: int):
+def update_item(db: Session, prize: schemas.PrizeCreate, user_id: str):
     db.query(models.Prizes).filter(models.Prizes.id == prize.id) \
         .update({"title": prize.title, "level": prize.level, "degree": prize.degree, "place": prize.place,
-                 "date": prize.date, "points": prize.points, "user_id": user_id, "id_request": id_request})
+                 "date": prize.date, "points": prize.points, "user_id": user_id, "id_request": prize.id_request})
     db.commit()
     return db.query(models.Prizes).filter(models.Prizes.id == prize.id).first()

@@ -3,10 +3,10 @@ from typing import List
 
 import requests
 from fastapi import FastAPI, Depends, Security, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, HTTPBearer, HTTPBasicCredentials
 from fastapi_auth0 import Auth0, Auth0User
 from sqlalchemy.orm import Session
-
+from fastapi_auth0.auth import Auth0HTTPBearer, HTTPAuthorizationCredentials
 from app import models, schemas
 from app.crud import crudPrizes, crudArtworks, crudActivity
 from app.database import SessionLocal, engine
@@ -64,15 +64,21 @@ def get_id_and_status(token):
 @app.post("/api/culture/prizes/", response_model=schemas.Prize,
           dependencies=[Depends(auth1.implicit_scheme)])
 def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    response = get_id_and_status(token_final)
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token1 = creds.credentials
+    print(token1)
+    new_token = f"Bearer {token1}"
+    print(new_token)
+    response = get_id_and_status(new_token)
+    print(response.json()["status"])
     data = response.json()
     id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.place > 0 and item.points > 0:
-            return crudPrizes.create_item(db, item, user.id, id_request)
+            return crudPrizes.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
@@ -113,7 +119,7 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.place > 0 and item.points > 0:
-            return crudPrizes.update_item(db, item, user.id, id_request)
+            return crudPrizes.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
@@ -129,7 +135,7 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.points > 0:
-            return crudArtworks.create_item(db, item, user.id, id_request)
+            return crudArtworks.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
@@ -171,7 +177,7 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.points > 0:
-            return crudArtworks.update_item(db, item, user.id, id_request)
+            return crudArtworks.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
@@ -187,7 +193,7 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.points > 0:
-            return crudActivity.create_item(db, item, user.id, id_request)
+            return crudActivity.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
@@ -229,7 +235,7 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
         if item.points > 0:
-            return crudActivity.update_item(db, item, user.id, id_request)
+            return crudActivity.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
 
