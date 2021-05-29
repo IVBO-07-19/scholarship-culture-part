@@ -73,7 +73,7 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.place > 0 and item.points > 0:
+        if item.place > 0 and item.points >= 0:
             return crudPrizes.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
@@ -117,7 +117,7 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.place > 0 and item.points > 0:
+        if item.place > 0 and item.points >= 0:
             return crudPrizes.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
@@ -136,7 +136,7 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.points > 0:
+        if item.points >= 0:
             return crudArtworks.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
@@ -181,7 +181,7 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.points > 0:
+        if item.points >= 0:
             return crudArtworks.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
@@ -200,7 +200,7 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.points > 0:
+        if item.points >= 0:
             return crudActivity.create_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
@@ -245,7 +245,7 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
-        if item.points > 0:
+        if item.points >= 0:
             return crudActivity.update_item(db, item, user.id)
         else:
             raise HTTPException(status_code=406)
