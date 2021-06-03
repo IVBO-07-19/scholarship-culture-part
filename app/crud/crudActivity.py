@@ -19,8 +19,9 @@ def delete_item_by_id(db: Session, item_id: int):
     return db_item
 
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Activities).order_by(models.Activities.id).offset(skip).limit(limit).all()
+def get_items(db: Session, user_id: str, skip: int = 0, limit: int = 100):
+    return db.query(models.Activities).filter(models.Activities.user_id == user_id).order_by(
+        models.Activities.id).offset(skip).limit(limit).all()
 
 
 def create_item(db: Session, activity: schemas.ActivitiesCreate, user_id: str, id_request: int):
