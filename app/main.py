@@ -69,10 +69,10 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.place > 0 and item.points >= 0:
             return crudPrizes.create_item(db, item, user.id, id_request)
         else:
@@ -113,10 +113,10 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.place > 0 and item.points >= 0:
             return crudPrizes.update_item(db, item, user.id, id_request)
         else:
@@ -132,10 +132,10 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudArtworks.create_item(db, item, user.id, id_request)
         else:
@@ -177,10 +177,10 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudArtworks.update_item(db, item, user.id, id_request)
         else:
@@ -196,10 +196,10 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudActivity.create_item(db, item, user.id, id_request)
         else:
@@ -241,10 +241,10 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudActivity.update_item(db, item, user.id, id_request)
         else:
