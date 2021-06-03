@@ -19,8 +19,9 @@ def delete_item_by_id(db: Session, item_id: int):
     return db_item
 
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Artworks).order_by(models.Artworks.id).offset(skip).limit(limit).all()
+def get_items(db: Session, user_id: str, skip: int = 0, limit: int = 100):
+    return db.query(models.Artworks).filter(models.Artworks.user_id == user_id).order_by(models.Artworks.id).offset(
+        skip).limit(limit).all()
 
 
 def create_item(db: Session, artwork: schemas.ArtworksCreate, user_id: str, id_request: int):

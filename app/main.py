@@ -2,7 +2,7 @@ import os
 from typing import List
 
 import requests
-from fastapi import FastAPI, Depends, Security, HTTPException
+from fastapi import FastAPI, Depends, Security, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer, HTTPBearer, HTTPBasicCredentials
 from fastapi_auth0 import Auth0, Auth0User
 from sqlalchemy.orm import Session
@@ -69,10 +69,10 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.place > 0 and item.points >= 0:
             return crudPrizes.create_item(db, item, user.id, id_request)
         else:
@@ -82,7 +82,7 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
 @app.get("/api/culture/prizes/", response_model=List[schemas.Prize], dependencies=[Depends(auth1.implicit_scheme)])
 def read_items(db: Session = Depends(get_db),
                user: Auth0User = Security(auth1.get_user)):
-    return crudPrizes.get_items(db)
+    return crudPrizes.get_items(db, user.id)
 
 
 @app.get("/api/culture/prizes/{item_id}", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
@@ -113,10 +113,10 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.place > 0 and item.points >= 0:
             return crudPrizes.update_item(db, item, user.id, id_request)
         else:
@@ -132,10 +132,10 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudArtworks.create_item(db, item, user.id, id_request)
         else:
@@ -145,7 +145,7 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
 @app.get("/api/culture/artworks/", response_model=List[schemas.Artwork], dependencies=[Depends(auth1.implicit_scheme)])
 def read_items(db: Session = Depends(get_db),
                user: Auth0User = Security(auth1.get_user)):
-    return crudArtworks.get_items(db)
+    return crudArtworks.get_items(db, user.id)
 
 
 @app.get("/api/culture/artworks/{item_id}", response_model=schemas.Artwork,
@@ -177,10 +177,10 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudArtworks.update_item(db, item, user.id, id_request)
         else:
@@ -196,10 +196,10 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudActivity.create_item(db, item, user.id, id_request)
         else:
@@ -209,7 +209,7 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
 @app.get("/api/culture/activity/", response_model=List[schemas.Activity], dependencies=[Depends(auth1.implicit_scheme)])
 def read_items(db: Session = Depends(get_db),
                user: Auth0User = Security(auth1.get_user)):
-    return crudActivity.get_items(db)
+    return crudActivity.get_items(db, user.id)
 
 
 @app.get("/api/culture/activity/{item_id}", response_model=schemas.Activity,
@@ -241,10 +241,10 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
-    id_request = data["id"]
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
     else:
+        id_request = data["id"]
         if item.points >= 0:
             return crudActivity.update_item(db, item, user.id, id_request)
         else:
