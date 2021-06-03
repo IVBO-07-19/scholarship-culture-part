@@ -68,8 +68,7 @@ def test_create_prize_check_user_id():
         "degree": "string",
         "place": 1,
         "date": "2021-05-13",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
 
     assert response.status_code == 200
@@ -86,8 +85,7 @@ def test_update_prize_200():
         "degree": "text",
         "place": 10,
         "date": "2021-05-27",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
     assert response.status_code == 200
 
@@ -105,8 +103,7 @@ def test_update_prize_with_incorrect_place_406():
         "degree": "text",
         "place": -110,
         "date": "2021-05-27",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
     assert response.status_code // 100 == 4
 
@@ -119,8 +116,7 @@ def test_update_prize_with_incorrect_points_406():
         "degree": "text",
         "place": 10,
         "date": "2021-05-27",
-        "points": -111.0,
-        "id_request": 1106
+        "points": -111.0
     }))
     assert response.status_code // 100 == 4
 
@@ -133,8 +129,7 @@ def test_create_prize_with_incorrect_argument_place_returns_400():
         "degree": "string",
         "place": -1,
         "date": "2021-05-13",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
 
     assert response.status_code // 100 == 4
@@ -148,8 +143,7 @@ def test_create_prize_with_incorrect_argument_points_returns_400():
         "degree": "string",
         "place": 1,
         "date": "2021-05-13",
-        "points": -15.0,
-        "id_request": 1106
+        "points": -15.0
     }))
 
     assert response.status_code // 100 == 4
@@ -167,8 +161,7 @@ def test_create_artwork_check_user_id():
         "title": "string",
         "location": "string",
         "date": "2021-05-13",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
 
     assert response.status_code == 200
@@ -183,8 +176,7 @@ def test_update_artwork_200():
         "title": "artwork1",
         "location": "RUSSIA, MOSCOW",
         "date": "2021-05-25",
-        "points": 1.0,
-        "id_request": 1106
+        "points": 1.0
     }))
     assert response.status_code == 200
 
@@ -200,8 +192,7 @@ def test_update_artwork_with_incorrect_points_406():
         "title": "artwork1",
         "location": "RUSSIA, MOSCOW",
         "date": "2021-05-25",
-        "points": -1.0,
-        "id_request": 1106
+        "points": -1.0
     }))
     assert response.status_code // 100 == 4
 
@@ -212,8 +203,7 @@ def test_create_artwork_with_incorrect_points():
         "title": "string",
         "location": "string",
         "date": "2021-05-13",
-        "points": -15.0,
-        "id_request": 1106
+        "points": -15.0
     }))
 
     assert response.status_code // 100 == 4
@@ -235,8 +225,7 @@ def test_create_activity_check_user_id():
         "responsible": "string",
         "responsiblePosition": "string",
         "points": 1.0,
-        "status": False,
-        "id_request": 1106
+        "status": False
     }))
 
     assert response.status_code == 200
@@ -255,8 +244,7 @@ def test_create_activity_with_incorrect_argument():
         "responsible": "string",
         "responsiblePosition": "string",
         "points": -1211.0,
-        "status": False,
-        "id_request": 1106
+        "status": False
     }))
 
     assert response.status_code // 100 == 4
@@ -272,8 +260,7 @@ def test_update_activity_200():
         "responsible": "string",
         "responsiblePosition": "string",
         "points": 1.0,
-        "status": True,
-        "id_request": 1106
+        "status": True
     }))
     assert response.status_code == 200
 
@@ -288,8 +275,7 @@ def test_update_activity_with_incorrect_points():
         "responsible": "string",
         "responsiblePosition": "string",
         "points": -234234.0,
-        "status": True,
-        "id_request": 1106
+        "status": True
     }))
     assert response.status_code // 100 == 4
 
