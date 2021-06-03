@@ -12,7 +12,7 @@ class PrizesBase(BaseModel):
     date: date
     points: float
     # user_id: str
-    id_request: int
+    # id_request: int
 
 
 class PrizeCreate(PrizesBase):
@@ -21,7 +21,7 @@ class PrizeCreate(PrizesBase):
 
 class Prize(PrizesBase):
     user_id: str
-    # id_request: int
+    id_request: int
 
     class Config:
         orm_mode = True
@@ -34,7 +34,7 @@ class ArtworksBase(BaseModel):
     date: date
     points: float
     # user_id: str
-    id_request: int
+    # id_request: int
 
 
 class ArtworksCreate(ArtworksBase):
@@ -43,7 +43,7 @@ class ArtworksCreate(ArtworksBase):
 
 class Artwork(ArtworksBase):
     user_id: str
-    # id_request: int
+    id_request: int
 
     class Config:
         orm_mode = True
@@ -60,7 +60,7 @@ class ActivitiesBase(BaseModel):
     points: float
     status: bool
     # user_id: str
-    id_request: int
+    # id_request: int
 
 
 class ActivitiesCreate(ActivitiesBase):
@@ -69,7 +69,7 @@ class ActivitiesCreate(ActivitiesBase):
 
 class Activity(ActivitiesBase):
     user_id: str
-    # id_request: int
+    id_request: int
 
     class Config:
         orm_mode = True
