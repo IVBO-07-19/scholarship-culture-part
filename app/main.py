@@ -62,9 +62,10 @@ def get_id_and_status(token):
 # prizes for participation
 @app.post("/api/culture/prizes/", response_model=schemas.Prize,
           dependencies=[Depends(auth1.implicit_scheme)])
-def create_item(request: Request, item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
@@ -105,9 +106,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 
 @app.put("/api/culture/prizes/", response_model=schemas.Prize, dependencies=[Depends(auth1.implicit_scheme)])
-def update_item(request: Request, item: schemas.PrizeCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
@@ -123,9 +125,10 @@ def update_item(request: Request, item: schemas.PrizeCreate, db: Session = Depen
 
 # artworks
 @app.post("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
-def create_item(request: Request, item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
@@ -167,9 +170,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 
 @app.put("/api/culture/artworks/", response_model=schemas.Artwork, dependencies=[Depends(auth1.implicit_scheme)])
-def update_item(request: Request, item: schemas.ArtworksCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
@@ -185,9 +189,10 @@ def update_item(request: Request, item: schemas.ArtworksCreate, db: Session = De
 
 # participation in university events or not
 @app.post("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
-def create_item(request: Request, item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
@@ -229,9 +234,10 @@ def delete_item(item_id: int, db: Session = Depends(get_db),
 
 
 @app.put("/api/culture/activity/", response_model=schemas.Activity, dependencies=[Depends(auth1.implicit_scheme)])
-def update_item(request: Request, item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
-                user: Auth0User = Security(auth1.get_user)):
-    token = request.headers['Authorization']
+def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
+                user: Auth0User = Security(auth1.get_user),
+                creds: HTTPAuthorizationCredentials = Depends(Auth0HTTPBearer())):
+    token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
     data = response.json()
