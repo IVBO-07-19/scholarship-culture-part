@@ -68,6 +68,9 @@ def create_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -112,6 +115,9 @@ def update_item(item: schemas.PrizeCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -131,6 +137,9 @@ def create_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -176,6 +185,9 @@ def update_item(item: schemas.ArtworksCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -195,6 +207,9 @@ def create_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
@@ -240,6 +255,9 @@ def update_item(item: schemas.ActivitiesCreate, db: Session = Depends(get_db),
     token = creds.credentials
     new_token = f"Bearer {token}"
     response = get_id_and_status(new_token)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="This is not our mistake")
+        return None
     data = response.json()
     if not data["status"]:
         raise HTTPException(status_code=400, detail="Your application is closed")
